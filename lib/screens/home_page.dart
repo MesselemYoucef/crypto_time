@@ -11,6 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  int _selectedItem = 0;
 
   String _cryptoPickedValue = "USD";
   _apiGetter() async{
@@ -20,12 +21,61 @@ class _HomePageState extends State<HomePage> {
     if(response.statusCode == 200){
       var jsonResponse = convert.jsonDecode(response.body);
       print(jsonResponse["rate"]);
+      print("The selected item is: $_selectedItem");
     }else{
       print("failed to get the api");
     }
   }
   @override
   Widget build(BuildContext context) {
+
+      List <Container>items = [
+                              Container(
+                                width: 50,
+                                color: Colors.redAccent,
+                                child: Center(
+                                  child: Text("BTC", 
+                                    style: TextStyle(
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 50,
+                                color: Colors.redAccent,
+                                child: Center(
+                                  child: Text("BTC", 
+                                    style: TextStyle(
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 50,
+                                color: Colors.redAccent,
+                                child: Center(
+                                  child: Text("BTC", 
+                                    style: TextStyle(
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 50,
+                                color: Colors.redAccent,
+                                child: Center(
+                                  child: Text("BTC", 
+                                    style: TextStyle(
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                ),
+                              )
+  ];
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -43,8 +93,22 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Icon(
-                          Icons.money
+                        Container(
+                          height: 200,
+                          width: 72,
+                          child: ListWheelScrollView(
+                            itemExtent: 45, 
+                            physics: FixedExtentScrollPhysics(),
+                            diameterRatio: 1,
+                            children: items,
+                            useMagnifier: true,
+                            magnification: 1.5,
+                            onSelectedItemChanged: (index)=>{
+                              setState((){
+                                _selectedItem = index;
+                              })
+                            },
+                          ),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.5,
