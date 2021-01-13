@@ -34,7 +34,31 @@ class _HomePageState extends State<HomePage> {
                                 width: 50,
                                 color: Colors.redAccent,
                                 child: Center(
-                                  child: Text("BTC", 
+                                  child: Text("USD", 
+                                    style: TextStyle(
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 80,
+                                color: Colors.blueGrey[500],
+                                child: Center(
+                                  child: Text("GBP", 
+                                  textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 50,
+                                color: Colors.redAccent,
+                                child: Center(
+                                  child: Text("HKD", 
                                     style: TextStyle(
                                       fontSize: 20
                                     ),
@@ -45,29 +69,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 50,
                                 color: Colors.redAccent,
                                 child: Center(
-                                  child: Text("BTC", 
-                                    style: TextStyle(
-                                      fontSize: 20
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 50,
-                                color: Colors.redAccent,
-                                child: Center(
-                                  child: Text("BTC", 
-                                    style: TextStyle(
-                                      fontSize: 20
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 50,
-                                color: Colors.redAccent,
-                                child: Center(
-                                  child: Text("BTC", 
+                                  child: Text("CNY", 
                                     style: TextStyle(
                                       fontSize: 20
                                     ),
@@ -76,6 +78,7 @@ class _HomePageState extends State<HomePage> {
                               )
   ];
 
+List<String> _currencies = ["USD","GBP","HKD", "CNY"];
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -93,23 +96,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Container(
-                          height: 200,
-                          width: 72,
-                          child: ListWheelScrollView(
-                            itemExtent: 45, 
-                            physics: FixedExtentScrollPhysics(),
-                            diameterRatio: 1,
-                            children: items,
-                            useMagnifier: true,
-                            magnification: 1.5,
-                            onSelectedItemChanged: (index)=>{
-                              setState((){
-                                _selectedItem = index;
-                              })
-                            },
-                          ),
-                        ),
+
                         Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           child: TextFormField(
@@ -119,32 +106,50 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        DropdownButton(
-                          value: _cryptoPickedValue,
-                          icon: Icon(
-                            Icons.arrow_downward,
+                        Container(
+                          height: 200,
+                          width: 72,
+                          child: ListWheelScrollView(
+                            itemExtent: 45, 
+                            physics: FixedExtentScrollPhysics(),
+                            diameterRatio: 1,
+                            children: items,
+                            // useMagnifier: true,
+                            // magnification: 1.1,
+                            onSelectedItemChanged: (index)=>{
+                              setState((){
+                                _selectedItem = index;
+                                _cryptoPickedValue = _currencies[index];
+                              })
+                            },
                           ),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: TextStyle(
-                            color: Colors.deepPurple,
-                            ),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.deepPurpleAccent,
-                          ),
-                          onChanged: (String newValue){
-                            setState(() {
-                              _cryptoPickedValue = newValue;
-                            });
-                          },
-                          items: <String>["USD","GBP","HKD", "CNY"].map<DropdownMenuItem<String>>((String value){
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList()
-                        )
+                        ),
+                        // DropdownButton(
+                        //   value: _cryptoPickedValue,
+                        //   icon: Icon(
+                        //     Icons.arrow_downward,
+                        //   ),
+                        //   iconSize: 24,
+                        //   elevation: 16,
+                        //   style: TextStyle(
+                        //     color: Colors.deepPurple,
+                        //     ),
+                        //   underline: Container(
+                        //     height: 2,
+                        //     color: Colors.deepPurpleAccent,
+                        //   ),
+                        //   onChanged: (String newValue){
+                        //     setState(() {
+                        //       _cryptoPickedValue = newValue;
+                        //     });
+                        //   },
+                        //   items: <String>["USD","GBP","HKD", "CNY"].map<DropdownMenuItem<String>>((String value){
+                        //     return DropdownMenuItem<String>(
+                        //       value: value,
+                        //       child: Text(value),
+                        //     );
+                        //   }).toList()
+                        // )
                       ],
                     ),
                   ),
