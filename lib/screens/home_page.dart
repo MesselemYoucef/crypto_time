@@ -35,8 +35,6 @@ class _HomePageState extends State<HomePage> {
       CurrencyItem(currencyName: "HKD"),
       CurrencyItem(currencyName: "CNY")
     ];
-
-    List<String> _currencies = ["USD", "GBP", "HKD", "CNY"];
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -44,23 +42,32 @@ class _HomePageState extends State<HomePage> {
           child: Stack(
             children: <Widget>[
               Container(
-                color: Colors.transparent,
+                color: Colors.red,
               ),
               Column(
                 children: [
+                  Text("CRYPTO TIME"),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     color: Colors.grey[200],
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Row(
-                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white
+                          ),
+                          
                           child: TextFormField(
+                            textAlign: TextAlign.center,
                             decoration: InputDecoration(
                               hintText: "Write the amount in BTC",
-                              fillColor: Colors.red,
+                              border: InputBorder.none,
+
                             ),
                           ),
                         ),
@@ -82,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                             onSelectedItemChanged: (index) => {
                               setState(() {
                                 _selectedItem = index;
-                                _cryptoPickedValue = _currencies[index];
+                                _cryptoPickedValue = items[index].currencyName;
                               })
                             },
                           ),
