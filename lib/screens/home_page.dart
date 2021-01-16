@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                           child: TextFormField(
                             textAlign: TextAlign.center,
                             decoration: InputDecoration(
-                              hintText: "Write the amount in BTC",
+                        
                               border: InputBorder.none,
                             ),
                             initialValue: "1",
