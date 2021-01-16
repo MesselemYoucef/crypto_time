@@ -1,6 +1,7 @@
 import 'package:Crypto_Time/configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:Crypto_Time/components/currency_item.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -10,23 +11,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedItem = 0;
+
 
   String _cryptoPickedValue = "USD";
+  String _convertedAmount = "_ _ . _ _";
+
   _apiGetter() async {
+    var jsonResponse;
     String url =
         "https://rest.coinapi.io/v1/exchangerate/BTC/$_cryptoPickedValue?apikey=3CE2C534-375F-4A3A-A2E9-66B07D1AD30C";
 
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
+      setState(() {
+        jsonResponse = convert.jsonDecode(response.body);
+      });
+      
       print(jsonResponse["rate"]);
-      print("The selected item is: $_selectedItem");
+      _convertedAmount = jsonResponse["rate"].toStringAsFixed(2);
     } else {
       print("failed to get the api");
     }
   }
-
   @override
   Widget build(BuildContext context) {
     List<CurrencyItem> items = [
@@ -45,12 +51,12 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.red,
               ),
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("CRYPTO TIME"),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     color: Colors.grey[200],
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -67,8 +73,8 @@ class _HomePageState extends State<HomePage> {
                             decoration: InputDecoration(
                               hintText: "Write the amount in BTC",
                               border: InputBorder.none,
-
                             ),
+                            initialValue: "1",
                           ),
                         ),
                         Icon(
@@ -87,19 +93,29 @@ class _HomePageState extends State<HomePage> {
                             // useMagnifier: true,
                             // magnification: 1.1,
                             onSelectedItemChanged: (index) => {
-                              setState(() {
-                                _selectedItem = index;
-                                _cryptoPickedValue = items[index].currencyName;
-                              })
+                              
+                                _cryptoPickedValue = items[index].currencyName
+                              
                             },
                           ),
                         ),
                       ],
                     ),
                   ),
+                  Container(
+                    child: Text(
+                      _convertedAmount+" "+_cryptoPickedValue,
+                      style: GoogleFonts.orbitron(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ),
                   FlatButton(
                       onPressed: () {
-                        _apiGetter();
+                        setState(() {
+                          _apiGetter();
+                        });
                       },
                       child: Text("push here"))
                 ],
