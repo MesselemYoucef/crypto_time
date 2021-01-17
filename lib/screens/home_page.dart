@@ -11,8 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   String _cryptoPickedValue = "USD";
   String _convertedAmount = "_ _ . _ _";
 
@@ -26,13 +24,15 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         jsonResponse = convert.jsonDecode(response.body);
       });
-      
+
       print(jsonResponse["rate"]);
-      _convertedAmount = jsonResponse["rate"].toStringAsFixed(2);
+      _convertedAmount =
+          jsonResponse["rate"].toStringAsFixed(2) + " " + _cryptoPickedValue;
     } else {
       print("failed to get the api");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     List<CurrencyItem> items = [
@@ -43,82 +43,140 @@ class _HomePageState extends State<HomePage> {
     ];
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
               Container(
-                color: Colors.red,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.grey[200],
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white
-                          ),
-                          
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                        
-                              border: InputBorder.none,
-                            ),
-                            initialValue: "1",
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_right,
-                          size: 50,
-                          color: Color.fromRGBO(26, 80, 139, 1),
-                        ),
-                        Container(
-                          height: 200,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: ListWheelScrollView(
-                            itemExtent: 45,
-                            physics: FixedExtentScrollPhysics(),
-                            diameterRatio: 1,
-                            children: items,
-                            // useMagnifier: true,
-                            // magnification: 1.1,
-                            onSelectedItemChanged: (index) => {
-                              
-                                _cryptoPickedValue = items[index].currencyName
-                              
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(16, 20, 24, 1),
+                      Colors.white,
+                    ],
                   ),
-                  Container(
-                    child: Text(
-                      _convertedAmount+" "+_cryptoPickedValue,
-                      style: GoogleFonts.orbitron(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 20,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Text(
+                        "Crypto Time",
+                        style: GoogleFonts.anton(
+                          fontSize: 50,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  FlatButton(
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white.withOpacity(0.3),
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withAlpha(150),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(0)),
+                                    initialValue: "1",
+                                    style: GoogleFonts.yesevaOne(
+                                      fontSize: 40,
+                                    ),
+                                  ),
+                                ),
+                                VerticalDivider(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                Container(
+                                  child: Text(
+                                    "BTC",
+                                    style: GoogleFonts.russoOne(
+                                      fontSize: 30,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_right,
+                            size: 50,
+                            color: Color.fromRGBO(26, 80, 139, 1),
+                          ),
+                          Container(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: ListWheelScrollView(
+                              itemExtent: 45,
+                              physics: FixedExtentScrollPhysics(),
+                              diameterRatio: 1,
+                              children: items,
+                              // useMagnifier: true,
+                              // magnification: 1.1,
+                              onSelectedItemChanged: (index) => {
+                                _cryptoPickedValue = items[index].currencyName
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        _convertedAmount,
+                        style: GoogleFonts.yesevaOne(
+                            fontSize: 45, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    FlatButton(
+                      color: Color.fromRGBO(26, 80, 139, 1).withOpacity(0.9),
+                      minWidth: MediaQuery.of(context).size.width * 0.8,
+                      height: 50,
                       onPressed: () {
                         setState(() {
                           _apiGetter();
                         });
                       },
-                      child: Text("push here"))
-                ],
+                      child: Text(
+                        "Get Rate",
+                        style: GoogleFonts.mukta(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
           ),
