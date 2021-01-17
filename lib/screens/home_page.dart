@@ -1,6 +1,7 @@
 import 'package:Crypto_Time/configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:Crypto_Time/components/currency_item.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String inputValue = "1";
   String _cryptoPickedValue = "USD";
   String _convertedAmount = "_ _ . _ _";
 
@@ -26,8 +28,10 @@ class _HomePageState extends State<HomePage> {
       });
 
       print(jsonResponse["rate"]);
+      var calculatedValue = jsonResponse["rate"] * double.parse(inputValue);
+      print("The calculated value is: $calculatedValue");
       _convertedAmount =
-          jsonResponse["rate"].toStringAsFixed(2) + " " + _cryptoPickedValue;
+          calculatedValue.toStringAsFixed(2) + " " + _cryptoPickedValue;
     } else {
       print("failed to get the api");
     }
@@ -99,13 +103,20 @@ class _HomePageState extends State<HomePage> {
                               children: <Widget>[
                                 Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.3,
+                                      MediaQuery.of(context).size.width * 0.2,
                                   child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      new LengthLimitingTextInputFormatter(4)
+                                    ],
+                                    onChanged: (text){
+                                      inputValue = text;
+                                    },
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         contentPadding: EdgeInsets.all(0)),
-                                    initialValue: "1",
+                                    initialValue: inputValue,
                                     style: GoogleFonts.yesevaOne(
                                       fontSize: 40,
                                     ),
