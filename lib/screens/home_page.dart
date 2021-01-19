@@ -43,7 +43,8 @@ class _HomePageState extends State<HomePage> {
       CurrencyItem(currencyName: "USD"),
       CurrencyItem(currencyName: "GBP"),
       CurrencyItem(currencyName: "HKD"),
-      CurrencyItem(currencyName: "CNY")
+      CurrencyItem(currencyName: "CNY"),
+      CurrencyItem(currencyName: "EUR")
     ];
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                     inputFormatters: [
                                       new LengthLimitingTextInputFormatter(4)
                                     ],
-                                    onChanged: (text){
+                                    onChanged: (text) {
                                       inputValue = text;
                                     },
                                     textAlign: TextAlign.center,
