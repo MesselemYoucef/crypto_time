@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color.fromRGBO(16, 20, 24, 1),
+                      Color.fromRGBO(26, 80, 139, 1),
                       Colors.white,
                     ],
                   ),
@@ -76,9 +76,10 @@ class _HomePageState extends State<HomePage> {
                       margin: EdgeInsets.only(top: 20),
                       child: Text(
                         "Crypto Time",
-                        style: GoogleFonts.anton(
-                          fontSize: 50,
+                        style: TextStyle(
+                          fontSize: 40,
                           color: Colors.white,
+                          fontFamily: "Masque",
                         ),
                       ),
                     ),
@@ -108,19 +109,26 @@ class _HomePageState extends State<HomePage> {
                                   child: TextFormField(
                                     keyboardType: TextInputType.number,
                                     inputFormatters: [
-                                      new LengthLimitingTextInputFormatter(4)
+                                      new LengthLimitingTextInputFormatter(3)
                                     ],
                                     onChanged: (text) {
                                       inputValue = text;
+                                    },
+                                    onTap: () {
+                                      setState(() {
+                                        inputValue = "";
+                                      });
                                     },
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         contentPadding: EdgeInsets.all(0)),
                                     initialValue: inputValue,
-                                    style: GoogleFonts.yesevaOne(
-                                      fontSize: 40,
-                                    ),
+                                    style: TextStyle(
+                                        fontSize: 40,
+                                        fontFamily: "Prototype",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(0.7)),
                                   ),
                                 ),
                                 VerticalDivider(
@@ -130,9 +138,10 @@ class _HomePageState extends State<HomePage> {
                                 Container(
                                   child: Text(
                                     "BTC",
-                                    style: GoogleFonts.russoOne(
+                                    style: TextStyle(
                                       fontSize: 30,
-                                      color: Colors.black,
+                                      color: Color.fromRGBO(26, 80, 139, 1),
+                                      fontFamily: "Masque",
                                     ),
                                   ),
                                 ),
@@ -165,8 +174,12 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       child: Text(
                         _convertedAmount,
-                        style: GoogleFonts.yesevaOne(
-                            fontSize: 45, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Prototype",
+                          color: Colors.black.withOpacity(0.7),
+                        ),
                       ),
                     ),
                     FlatButton(
@@ -180,10 +193,11 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Text(
                         "Get Rate",
-                        style: GoogleFonts.mukta(
+                        style: TextStyle(
                           fontSize: 30,
                           color: Colors.white,
-                          fontWeight: FontWeight.w800,
+                          fontFamily: "Masque",
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     )
